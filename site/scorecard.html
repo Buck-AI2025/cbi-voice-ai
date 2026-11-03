@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Food Freedom Scorecard</title>
+<meta name="description" content="Day 1 vs Day 90 scorecard for the Food Freedom program.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf7f3;--ink:#2a2230;--muted:#6b6070;--accent:#b4436c;--good:#2f7d5b;--card:#fff;--line:#eadfe3;--soft:#f6e9ee}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17131a;--ink:#f3edf2;--muted:#b6a9b4;--accent:#e57aa0;--good:#6fd0a3;--card:#221c26;--line:#3a2f3e;--soft:#2b2130}}
+:root[data-theme="dark"]{--bg:#17131a;--ink:#f3edf2;--muted:#b6a9b4;--accent:#e57aa0;--good:#6fd0a3;--card:#221c26;--line:#3a2f3e;--soft:#2b2130}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:32px 16px 56px}
+h1{font-family:Fraunces,Georgia,serif;font-size:clamp(1.8rem,5vw,2.5rem);margin:0 0 .3em}
+.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+.row{display:grid;grid-template-columns:1fr 92px 92px 90px;gap:10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.row.head{border-top:0;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-top:0}
+.q b{display:block}.q span{font-size:.85rem;color:var(--muted)}
+input[type=number],input[type=text],input[type=date]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.chg{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.chg.up{color:var(--good)}.chg.down{color:var(--accent)}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+label{font-size:.85rem;color:var(--muted);display:block;margin-bottom:4px}
+.summary{background:var(--soft);border-radius:16px;padding:18px;margin-top:14px}
+button{background:var(--accent);color:#fff;border:0;border-radius:999px;padding:11px 20px;font:600 15px Inter,sans-serif;cursor:pointer;margin-right:8px}
+button.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+@media (max-width:560px){.row{grid-template-columns:1fr 1fr 1fr;}.row .q{grid-column:1/-1}.row.head .q{display:none}.chg{text-align:left}}
+@media print{button{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Food Freedom Scorecard</h1>
+  <p class="muted">Fill in the Day 1 column at your first session and the Day 90 column at your last. Score how the <strong>past 7 days</strong> went. Be honest: this measures your progress, not your worth.</p>
+
+  <div class="card meta">
+    <div><label for="name">Client name</label><input id="name" type="text"></div>
+    <div><label for="d1">Day 1 date</label><input id="d1" type="date"></div>
+    <div><label for="d90">Day 90 date</label><input id="d90" type="date"></div>
+  </div>
+
+  <div class="card" id="table">
+    <div class="row head"><div class="q">Measure</div><div>Day 1</div><div>Day 90</div><div class="chg">Change</div></div>
+  </div>
+
+  <div class="summary" id="summary">Fill in both columns to see your results.</div>
+
+  <div class="card">
+    <label for="belief1">Day 1: the belief I have about myself and food</label>
+    <input id="belief1" type="text" placeholder='e.g. "I can't be trusted around sugar"'>
+    <div style="height:12px"></div>
+    <label for="belief90">Day 90: what I believe now</label>
+    <input id="belief90" type="text" placeholder='e.g. "I know how to take care of myself at night"'>
+  </div>
+
+  <p><button onclick="window.print()">Print / save as PDF</button><button class="ghost" onclick="resetAll()">Clear</button></p>
+  <p class="muted" style="font-size:.8rem">Your answers are saved only in this browser. This is a coaching tool, not a medical assessment.</p>
+</div>
+
+<script>
+// lowerIsBetter: a drop counts as progress
+const Q = [
+  {id:"binges", t:"Binge episodes", s:"How many times did you binge in the past 7 days?", min:0, max:50, lower:true},
+  {id:"nights", t:"Late-night eating", s:"How many nights did you eat after dinner when you weren't hungry? (0–7)", min:0, max:7, lower:true},
+  {id:"craving", t:"Craving strength", s:"How strong were your sugar cravings? (0 = none, 10 = overpowering)", min:0, max:10, lower:true},
+  {id:"noise", t:"Food noise", s:"How much did thoughts of food take over your day? (0–10)", min:0, max:10, lower:true},
+  {id:"guilt", t:"Guilt after eating", s:"How much guilt or shame did you feel after eating? (0–10)", min:0, max:10, lower:true},
+  {id:"trust", t:"Self-trust with food", s:"How much do you trust yourself around food? (0 = not at all, 10 = completely)", min:0, max:10, lower:false},
+  {id:"recover", t:"Recovery after a slip", s:"After a slip, how fast did you get back on track? (0 = days, 10 = by the next meal)", min:0, max:10, lower:false},
+];
+const KEY = "tym-scorecard-v1";
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) {}
+const table = document.getElementById("table");
+Q.forEach(q => {
+  const r = document.createElement("div"); r.className = "row";
+  r.innerHTML = `<div class="q"><b>${q.t}</b><span>${q.s}</span></div>
+    <input type="number" inputmode="numeric" min="${q.min}" max="${q.max}" id="${q.id}_1" aria-label="${q.t} Day 1">
+    <input type="number" inputmode="numeric" min="${q.min}" max="${q.max}" id="${q.id}_90" aria-label="${q.t} Day 90">
+    <div class="chg" id="${q.id}_c">–</div>`;
+  table.appendChild(r);
+});
+const fields = [...document.querySelectorAll("input")];
+fields.forEach(f => { if (saved[f.id] != null) f.value = saved[f.id]; f.addEventListener("input", update); });
+
+function update(){
+  const data = {}; fields.forEach(f => data[f.id] = f.value);
+  try { localStorage.setItem(KEY, JSON.stringify(data)); } catch(e) {}
+  const wins = [];
+  Q.forEach(q => {
+    const a = parseFloat(data[q.id+"_1"]), b = parseFloat(data[q.id+"_90"]);
+    const c = document.getElementById(q.id+"_c");
+    if (isNaN(a) || isNaN(b)) { c.textContent = "–"; c.className = "chg"; return; }
+    const d = b - a, better = q.lower ? d < 0 : d > 0;
+    const pct = a ? Math.round(Math.abs(d) / a * 100) : null;
+    c.textContent = d === 0 ? "0" : (d > 0 ? "+" : "") + d + (pct !== null && q.lower ? ` (${pct}%)` : "");
+    c.className = "chg " + (d === 0 ? "" : better ? "up" : "down");
+    if (better) wins.push(q.lower && pct !== null ? `${q.t}: ${a} → ${b} (${pct}% less)` : `${q.t}: ${a} → ${b}`);
+  });
+  const s = document.getElementById("summary");
+  s.innerHTML = wins.length
+    ? `<strong>${wins.length} of ${Q.length} measures improved.</strong><br>` + wins.join("<br>")
+    : "Fill in both columns to see your results.";
+}
+function resetAll(){ if (confirm("Clear all answers?")) { fields.forEach(f => f.value = ""); update(); } }
+update();
+</script>
+</body>
+</html>
