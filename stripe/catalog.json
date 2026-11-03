@@ -8,8 +8,20 @@
       "description": "App access: sugar & late-night binge eating support.",
       "tax_code": "txcd_10103000",
       "prices": [
-        { "lookup_key": "tym_app_monthly", "amount_cents": null, "currency": "usd", "interval": "month", "trial_days": 7 },
-        { "lookup_key": "tym_app_annual",  "amount_cents": null, "currency": "usd", "interval": "year",  "trial_days": 7 }
+        {
+          "lookup_key": "tym_app_monthly",
+          "amount_cents": 1900,
+          "currency": "usd",
+          "interval": "month",
+          "trial_days": 7
+        },
+        {
+          "lookup_key": "tym_app_annual",
+          "amount_cents": 14900,
+          "currency": "usd",
+          "interval": "year",
+          "trial_days": 7
+        }
       ]
     },
     {
@@ -17,16 +29,49 @@
       "description": "1:1 coaching to change your relationship with sugar.",
       "tax_code": "txcd_20030000",
       "prices": [
-        { "lookup_key": "tym_coaching_starter_pif", "amount_cents": null, "currency": "usd" }
+        {
+          "lookup_key": "tym_coaching_starter_pif",
+          "amount_cents": 29700,
+          "currency": "usd"
+        }
       ]
     },
     {
       "name": "Coaching Package - Transformation",
-      "description": "Deep belief work + binge-eating breakthrough coaching.",
+      "description": "Rewire the beliefs that drive sugar cravings and late-night bingeing.",
       "tax_code": "txcd_20030000",
       "prices": [
-        { "lookup_key": "tym_coaching_transform_pif", "amount_cents": null, "currency": "usd" },
-        { "lookup_key": "tym_coaching_transform_3pay", "amount_cents": null, "currency": "usd", "interval": "month", "installments": 3 }
+        {
+          "lookup_key": "tym_coaching_transform_pif",
+          "amount_cents": 99700,
+          "currency": "usd"
+        },
+        {
+          "lookup_key": "tym_coaching_transform_3pay",
+          "amount_cents": 34700,
+          "currency": "usd",
+          "interval": "month",
+          "installments": 3
+        }
+      ]
+    },
+    {
+      "name": "Food Freedom 90-Day Coaching",
+      "description": "Go from fighting food every night to trusting yourself with it. Private 1:1 coaching.",
+      "tax_code": "txcd_20030000",
+      "prices": [
+        {
+          "lookup_key": "tym_coaching_90day_pif",
+          "amount_cents": 300000,
+          "currency": "usd"
+        },
+        {
+          "lookup_key": "tym_coaching_90day_3pay",
+          "amount_cents": 110000,
+          "currency": "usd",
+          "interval": "month",
+          "installments": 3
+        }
       ]
     }
   ]
