@@ -23,56 +23,6 @@
           "trial_days": 7
         }
       ]
-    },
-    {
-      "name": "Coaching Package - Starter",
-      "description": "1:1 coaching to change your relationship with sugar.",
-      "tax_code": "txcd_20030000",
-      "prices": [
-        {
-          "lookup_key": "tym_coaching_starter_pif",
-          "amount_cents": 29700,
-          "currency": "usd"
-        }
-      ]
-    },
-    {
-      "name": "Coaching Package - Transformation",
-      "description": "Rewire the beliefs that drive sugar cravings and late-night bingeing.",
-      "tax_code": "txcd_20030000",
-      "prices": [
-        {
-          "lookup_key": "tym_coaching_transform_pif",
-          "amount_cents": 99700,
-          "currency": "usd"
-        },
-        {
-          "lookup_key": "tym_coaching_transform_3pay",
-          "amount_cents": 34700,
-          "currency": "usd",
-          "interval": "month",
-          "installments": 3
-        }
-      ]
-    },
-    {
-      "name": "Food Freedom 90-Day Coaching",
-      "description": "Go from fighting food every night to trusting yourself with it. Private 1:1 coaching.",
-      "tax_code": "txcd_20030000",
-      "prices": [
-        {
-          "lookup_key": "tym_coaching_90day_pif",
-          "amount_cents": 300000,
-          "currency": "usd"
-        },
-        {
-          "lookup_key": "tym_coaching_90day_3pay",
-          "amount_cents": 110000,
-          "currency": "usd",
-          "interval": "month",
-          "installments": 3
-        }
-      ]
     }
   ]
 }
