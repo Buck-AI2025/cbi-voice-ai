@@ -10,19 +10,20 @@
       "prices": [
         {
           "lookup_key": "tym_app_monthly",
-          "amount_cents": 1900,
+          "amount_cents": 479,
           "currency": "usd",
           "interval": "month",
           "trial_days": 7
         },
         {
           "lookup_key": "tym_app_annual",
-          "amount_cents": 14900,
+          "amount_cents": 4199,
           "currency": "usd",
           "interval": "year",
           "trial_days": 7
         }
-      ]
+      ],
+      "statement_descriptor": "15SEC-SHFT"
     }
   ]
 }
