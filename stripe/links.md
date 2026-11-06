@@ -20,3 +20,12 @@ coaching is booked through the in-app calendar.
   invoice.payment_failed) to unlock and re-lock the coach.
 - Billing → Revenue recovery: Smart Retries + failed-payment emails ON.
 - Settings → Billing → Customer portal: ON so subscribers can cancel/update cards.
+
+## In-app checkout (Bolt)
+Payment links (active, 7-day trial built in):
+- Monthly: https://buy.stripe.com/test_aFa6oI7I2gNDguR0390x207
+- Yearly:  https://buy.stripe.com/test_cNi8wQ6DY7d392p2bh0x208
+Append ?client_reference_id=<APP_USER_ID>&prefilled_email=<EMAIL> so the webhook can match the payment to the user.
+The trial lives on the LINK, not the price. If Bolt builds its own Checkout Session from price IDs instead,
+it must send subscription_data.trial_period_days = 7.
+The landing page no longer links to Stripe; its buttons point to #download (the app).
